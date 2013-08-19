@@ -21,6 +21,8 @@ public class MembersDAO extends SqlSessionDaoSupport implements MemberInterface 
 		System.out.println(result);
 		return result;
 	}
+	
+	//login 로직 start
 	@Override
 	public int getLoginResult(Map<String, String> map) {
 		// TODO Auto-generated method stub
@@ -32,6 +34,7 @@ public class MembersDAO extends SqlSessionDaoSupport implements MemberInterface 
 		// TODO Auto-generated method stub
 		return getSqlSession().selectOne("MembersInterface.getMemberInfo", id);
 	}
+	//login 로직 end
 
 	@Override
 	public List<BoardList> getBoardList(int pageNum) {

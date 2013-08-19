@@ -1,20 +1,16 @@
 package com.school.board;
 
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.Locale;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.school.action.MembersAction;
@@ -25,12 +21,14 @@ import com.school.dao.MembersDAO;
  * Handles requests for the application home page.
  */
 @Controller
-@SessionAttributes("members")
+@SessionAttributes("members") // members라는 세션영역에 저장
+							  // jsp에서 ${members.id} 이런식으로 세션영역의 변수를 호출할 수 있다. sessionScope.members.id 대신함
 public class HomeController {
 	private HttpSession session;
 	
+	// mybatis-context.xml 에서 연결되었다.
 	@Resource(name="membersDao")
-	private MembersDAO memberDao;
+	private MembersDAO membersDao;
 	@Resource(name="transactionManager")
 	private DataSourceTransactionManager txManager;
 	
@@ -56,17 +54,67 @@ public class HomeController {
 			mb.setBirth(request.getParameter("birth"));
 			mb.setAddr(request.getParameter("addr"));
 			mb.setPhone(request.getParameter("phone"));
-			System.out.println(mb.getAddr());
-			System.out.println(mb.getBirth());
-			System.out.println(mb.getId());
-			System.out.println(mb.getMname());
-			System.out.println(mb.getPhone());
-			System.out.println(mb.getPwd());
-			MembersAction ma=new MembersAction(memberDao);
+
+			MembersAction ma=new MembersAction(membersDao);
 			result = ma.memInsert(mb);
 			model.addAttribute("check", 1);
 		}
 		catch(Exception e){
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+// login에 성공하고 글 목록 출력하기
+	@RequestMapping(value="/access")
+	public String mInfo(HttpServletRequest request, Model model){
+		String result="home";
+		
+		Members members=new Members();
+		
+		Map<String,String> map=new HashMap<String, String>();
+		map.put("id", request.getParameter("id"));
+		map.put("pwd", request.getParameter("pwd"));
+		
+		try{
+			MembersAction ma=new MembersAction(membersDao); // 29line과 관련됨 membersDao
+			members=ma.accessMembers(map);
+			
+			if(members!=null){
+				session=request.getSession();
+				session.setAttribute("uid", members.getId());
+				model.addAttribute("members",members);
+				//result=boardList(request,model);
+			}else{
+				if(session != null){ session=null;}
+			}
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+		//return result;
+		return "boardlist";
+	}
+	
+	@RequestMapping(value="/boardlist")
+	public String boardList(HttpServletRequest request, Model model){
+		String result="home";
+		
+		try{
+			BoardListAction ba=new BoardListAction(membersDao);
+			
+			if(session!=null&&session.getAttribute("uid")!=null){
+				session=request.getSession();
+				
+				int pageNum=(request.getParameter("pageNum")!=null)?
+						Integer.parseInt(request.getParameter("pageNum")):1;
+				
+				// paging 관련 로직
+				model.addAttribute("pageNum", pageNum);
+				model.addAttribute("blist",ba.getBoardList(pageNum));
+				model.addAttribute("paging", ba.getPaging(pageNum));
+				result="boardlist";
+			}
+		} catch(Exception e){
 			e.printStackTrace();
 		}
 		return result;
