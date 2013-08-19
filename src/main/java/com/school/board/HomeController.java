@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.school.action.BoardListAction;
 import com.school.action.MembersAction;
 import com.school.bean.Members;
 import com.school.dao.MembersDAO;
@@ -84,15 +85,15 @@ public class HomeController {
 				session=request.getSession();
 				session.setAttribute("uid", members.getId());
 				model.addAttribute("members",members);
-				//result=boardList(request,model);
+				result=boardList(request,model);
 			}else{
 				if(session != null){ session=null;}
 			}
 		} catch(Exception e){
 			e.printStackTrace();
 		}
-		//return result;
-		return "boardlist";
+		return result;
+		//return "boardlist";
 	}
 	
 	@RequestMapping(value="/boardlist")
@@ -102,22 +103,22 @@ public class HomeController {
 		try{
 			BoardListAction ba=new BoardListAction(membersDao);
 			
-			if(session!=null&&session.getAttribute("uid")!=null){
+			if(session!=null && session.getAttribute("uid")!=""){
 				session=request.getSession();
 				
-				int pageNum=(request.getParameter("pageNum")!=null)?
-						Integer.parseInt(request.getParameter("pageNum")):1;
+				int pageNum=(request.getParameter("pageNum")!=null)? Integer.parseInt(request.getParameter("pageNum")):1;
 				
 				// paging 관련 로직
 				model.addAttribute("pageNum", pageNum);
-				model.addAttribute("blist",ba.getBoardList(pageNum));
-				model.addAttribute("paging", ba.getPaging(pageNum));
+				model.addAttribute("blist",ba.getBoardList(pageNum)); //게시글
+				model.addAttribute("paging", ba.getPaging(pageNum)); //[1][2]...<- paging
 				result="boardlist";
 			}
 		} catch(Exception e){
 			e.printStackTrace();
 		}
 		return result;
+		
 	}
 	
 }

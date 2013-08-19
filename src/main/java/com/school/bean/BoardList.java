@@ -7,7 +7,9 @@ public class BoardList {
 	private String btitle;
 	private String bcontents;
 	private String bwriter;
-	
+	private String mname;
+	private Date bdate;
+	private int bviews;
 	
 	public int getBnum() {
 		return bnum;
@@ -51,8 +53,6 @@ public class BoardList {
 	public void setBviews(int bviews) {
 		this.bviews = bviews;
 	}
-	private String mname;
-	private Date bdate;
-	private int bviews;
+	
 
 }

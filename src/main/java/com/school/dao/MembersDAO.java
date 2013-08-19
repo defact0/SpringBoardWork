@@ -39,7 +39,7 @@ public class MembersDAO extends SqlSessionDaoSupport implements MemberInterface 
 	@Override
 	public List<BoardList> getBoardList(int pageNum) {
 		// TODO Auto-generated method stub
-		return getSqlSession().selectOne("MembersInterface.getBoardList", pageNum);
+		return getSqlSession().selectList("MembersInterface.getBoardList", pageNum);
 	}
 
 	@Override

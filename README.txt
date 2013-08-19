@@ -8,7 +8,12 @@ Spring 이용한 Model2 MVC패턴 게시판 입니다.
 * 이 게시판에 필요한 DB Table의 정보는 http://ejungdo.blog.me/50177414135 에서 확인하세요.
 
 * SpringBoardWork 의 시작은 / (root page)이다. root가 home.jsp으로 이동하게 설정되어 있다.
-   http://localhost:8088/
+   http://localhost:8088/ (오라클 설치할때 포트를 8088으로 설정된 상태입니다.)
+
+[08/19]
+	- Paging.java 게시판 페이지 정리코드 (이해하자)
+	- boardlist.jsp 에서 게시판 출력추가, <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 잊지말자!!
+
 
 
 * import 에러날때 C:\Users\admin\.m2\repository 안에 있는 파일을 삭제합니다.
