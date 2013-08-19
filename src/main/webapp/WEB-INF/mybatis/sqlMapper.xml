@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MembersInterface">
+	<resultMap type="members" id="members"/>
+	<resultMap type="board" id="board">
+		<result property="bcontents" column="BCONTENTS" jdbcType="NCLOB" javaType="java.lang.String" />
+		<result property="bdate" column="BDATE" jdbcType="DATE" javaType="java.sql.Date" />
+	</resultMap>
+	<resultMap type="al" id="al"/>
+	<resultMap type="Map" id="Map"/>
+	
+	<resultMap type="reply" id="reply">
+		<result property="rdate" column="RDATE" jdbcType="DATE" javaType="java.sql.Date" />
+	</resultMap>
+	
+	<select id="getLoginResult" resultType="Integer" parameterType="Map">
+		SELECT COUNT(*) FROM MINFO WHERE ID=#{id} AND PWD=#{pwd}
+	</select>
+	
+	<select id="getMemberInfo" resultType="Members" parameterType="java.lang.String">
+		SELECT ID, MNAME, GNAME, POINT FROM MINFO WHERE ID=#{id}
+	</select>
+	
+	<select id="getBoardList" resultType="Board" parameterType="java.lang.Integer">
+		<![CDATA[
+			SELECT * FROM BLIST_1 WHERE RNUM>=#{pagenum}*10-9 AND RNUM<=#{pagenum}*10
+		]]>
+	</select>
+	
+	<select id="getPageCount" resultType="Integer" >
+		SELECT COUNT(*) FROM BLIST_1
+	</select>
+	
+	<select id="getContents" resultType="board" parameterType="Integer" >
+		SELECT * FROM BLIST_1 WHERE BNUM=#{bnum} 
+	</select>
+
+	<select id="getReply" resultType="reply" parameterType="Integer" >
+		SELECT * FROM RLIST WHERE BNUM=#{bnum} 
+	</select>	
+	
+	<insert id="rInsert" parameterType="reply" >
+		INSERT INTO R VALUES(REPLY_SEQ.NEXTVAL,#{bnum},#{rcontents},#{writer},DEFAULT) 
+	</insert>
+	
+	<insert id="memInsert" parameterType="members" >
+		INSERT INTO M VALUES(#{id},#{pwd},#{mname},#{birth},#{addr},#{phone},DEFAULT) 
+	</insert>	
+</mapper>
