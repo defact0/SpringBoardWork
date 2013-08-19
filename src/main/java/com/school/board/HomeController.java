@@ -37,7 +37,6 @@ public class HomeController {
 // URL	
 	@RequestMapping(value="/")
 	public String home(){
-		System.out.println("진입1");
 		return "home";
 	}
 	@RequestMapping(value="/join")
