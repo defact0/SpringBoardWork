@@ -38,7 +38,7 @@
 	  });
 	  //$( ":button, :submit" ).css({"padding":"2px 5px 2px 5px", "font-size":"9pt"});
 	  // padding : 북, 서, 남, 동 순서
-	  $( ":button, :submit" ).css({"padding":"10px 15px 6px 15px", "font-size":"9pt"});
+	  $( ":button, :submit" ).css({"padding":"8px 10px 6px 10px", "font-size":"9pt"});
 	});
 </script>
 

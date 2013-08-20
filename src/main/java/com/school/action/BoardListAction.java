@@ -2,6 +2,8 @@ package com.school.action;
 
 import java.util.List;
 
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+
 import com.school.bean.BoardList;
 import com.school.bean.ReplyList;
 import com.school.dao.MembersDAO;
@@ -38,5 +40,10 @@ public class BoardListAction {
 	public List<ReplyList> getReplyList(int bNum) {
 		// TODO Auto-generated method stub
 		return dao.getReply(bNum);
+	}
+
+	public int replyInsert(ReplyList rl) {
+		// TODO Auto-generated method stub
+		return dao.rInsert(rl);
 	}
 }

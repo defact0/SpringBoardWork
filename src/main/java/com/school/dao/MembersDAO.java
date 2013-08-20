@@ -4,7 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.support.SqlSessionDaoSupport;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.school.bean.BoardList;
 import com.school.bean.Members;
@@ -54,11 +55,7 @@ public class MembersDAO extends SqlSessionDaoSupport implements MemberInterface 
 		return getSqlSession().selectOne("MembersInterface.getContents", bnum);
 	}
 
-	@Override
-	public List<ReplyList> getReply(int bnum) {
-		// TODO Auto-generated method stub
-		return getSqlSession().selectOne("MembersInterface.getReply", bnum);
-	}
+
 	
 	@Override
 	public int memInsert(Members mb) {
@@ -67,11 +64,20 @@ public class MembersDAO extends SqlSessionDaoSupport implements MemberInterface 
 		// selectone => 레코드가 한개일때~
 		return getSqlSession().insert("MembersInterface.memInsert", mb);
 	}
-//-----------------------------------------------------------------------
+
 	@Override
-	public int rInsert(ReplyList rl, DataSourceTransactionManager txManager) {
+	// 리플을 입력
+	public int rInsert(ReplyList rl) {
 		// TODO Auto-generated method stub
-		return 0;
+		// insert성공 1 실패 0
+		return getSqlSession().insert("MembersInterface.rInsert", rl);
+	}
+	
+	@Override
+	// 리플을 읽어 오기
+	public List<ReplyList> getReply(int bnum) {
+		// TODO Auto-generated method stub
+		return getSqlSession().selectList("MembersInterface.getReply", bnum);
 	}
 
 

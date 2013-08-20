@@ -8,14 +8,16 @@
 <title>스프링 게시판 내용!</title>
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script type="text/javascript">
+	// 리플레이 전송에 관한
 	function replyInsert(id, num) {
-		var con = document.rFrm.contents.value;
+		var con= document.rFrm.contents.value; // 답글 내용
 		var parameter = escape(encodeURIComponent(con));
-		var param = "uid=" + id + "&bnum=" + num + "&contents=" + parameter;
-		$('#rTable').load("replyInsert", param, function(data) {
-			alert(data);
-		});
+		var param= "uid="+id+"&bnum="+num+"&contents="+parameter;
+		// load는 url 이다. param에 있는 쿼리로 전송, replyInsert컨트롤러 작성, 저장된 결과를 data로 뿌림
+		// data가 replylistajax이다. function(data){}은 필수다!!!!
+		$('#rTable').load("replyInsert",param,function(data){ alert(data);});
 	}
+
 </script>
 </head>
 

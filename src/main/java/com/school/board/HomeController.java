@@ -1,5 +1,6 @@
 package com.school.board;
 
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.school.action.BoardListAction;
 import com.school.action.MembersAction;
 import com.school.bean.Members;
+import com.school.bean.ReplyList;
 import com.school.dao.MembersDAO;
 
 /**
@@ -93,7 +95,6 @@ public class HomeController {
 			e.printStackTrace();
 		}
 		return result;
-		//return "boardlist";
 	}
 	
 	@RequestMapping(value="/boardlist")
@@ -137,7 +138,6 @@ public class HomeController {
 		}
 		return result;
 	}
-	
 	@RequestMapping(value= "/boardlistAjax")
 	public String boardListAjax(HttpServletRequest request, Model model) {
 		System.out.println("진입테스트"+request.getParameter("pageNum"));
@@ -157,5 +157,28 @@ public class HomeController {
 		}		
 		return result;
 	}
-
+	
+	
+	@RequestMapping(value= "/replyInsert")
+	public String rInsert(HttpServletRequest request, Model model) {
+		String result= "boardContents";
+		try {
+			BoardListAction ba= new BoardListAction(membersDao);
+			if(session!=null && session.getAttribute("uid")!=""){
+				ReplyList rl= new ReplyList();
+				int bNum= Integer.parseInt(request.getParameter("bnum"));
+				rl.setBnum(bNum);
+				rl.setWriter(request.getParameter("uid"));
+				rl.setRcontents(URLDecoder.decode(request.getParameter("contents"),"UTF-8"));
+				
+				if(ba.replyInsert(rl)==1){
+					model.addAttribute("rlist", ba.getReplyList(bNum));
+					result= "replylistAjax";
+				}
+			}
+		} catch (Exception e){
+			e.printStackTrace(); 
+		}		
+		return result;
+	}
 }
