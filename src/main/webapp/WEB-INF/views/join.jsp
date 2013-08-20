@@ -2,6 +2,9 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="false"%>
+ <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />
+<script src="http://code.jquery.com/jquery-1.8.2.js"></script>
+<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -20,6 +23,23 @@
 				 }
 			 } 
 		}
+		
+		// submit과 button에 jQuery UI 적용! - 0820
+		// http://pgm-progger.blogspot.kr/2012/11/jquery-button-jquery-ui.html
+			$(function(){
+			  $( ":submit" ).button().click(function( event ) {
+					var url = "memJoin";    
+					$(location).attr('href',url);
+				  });
+			  $( ":button" ).button().click(function( event ) {
+			    //그냥 이대로 두면, 알아서 버튼 등에 onclick 등으로 설정한대로 버튼이 동작합니다.
+			    event.preventDefault(); 
+			  });
+			  //$( ":button, :submit" ).css({"padding":"2px 5px 2px 5px", "font-size":"9pt"});
+			  // padding : 북, 서, 남, 동 순서
+			  $( ":button, :submit" ).css({"padding":"10px 15px 6px 15px", "font-size":"9pt"});
+			});
+		</script>
 	</script>
 
 

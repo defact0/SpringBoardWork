@@ -37,35 +37,55 @@
 
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script type="text/javascript">
-	
-	function articleView(idx){
-		 $('.articleView_layer').addClass('open');
-		  $.ajax({ type:'post',
-			   url:'contents',
-			   data: ({bnum:idx}),
-			   success:function(data){
-				 $('#view_layer').html(data);
-			   }
+
+	var pgNum = 0;
+	function loadNextPage(pageNum) {
+		if (pgNum == 0) {
+			pgNum = ${pageNum + 1};
+		} else {
+			pgNum++;
+		}
+
+		$.ajax({
+			type : 'post',
+			url : 'boardlistAjax',
+			data : ({pageNum : pgNum}),
+			success : function(data) {
+				$('#two_table').append(data);
+			}
 		});
 	}
-	
 
-	jQuery(function($){
-		 var layerWindow = $('.articleView_layer');
-		 // ESC Event
-		 $(document).keydown(function(event){
-		  		if(event.keyCode != 27) return true;
-		  		if (layerWindow.hasClass('open')) {
-		   			layerWindow.removeClass('open');}
-		  		return false;
-		 		});
-
-		 // Hide Window
-		 layerWindow.find('.bg_layer').mousedown(function(event){
-		 			layerWindow.removeClass('open');
-		  			return false;
-		 			});
+	function articleView(idx) {
+		$('.articleView_layer').addClass('open');
+		$.ajax({
+			type : 'post',
+			url : 'contents',
+			data : ({bnum : idx	}),
+			success : function(data) {
+				$('#view_layer').html(data);
+			}
 		});
+	}
+
+	jQuery(function($) {
+		var layerWindow = $('.articleView_layer');
+		// ESC Event
+		$(document).keydown(function(event) {
+			if (event.keyCode != 27)
+				return true;
+			if (layerWindow.hasClass('open')) {
+				layerWindow.removeClass('open');
+			}
+			return false;
+		});
+
+		// Hide Window
+		layerWindow.find('.bg_layer').mousedown(function(event) {
+			layerWindow.removeClass('open');
+			return false;
+		});
+	});
 </script>
 	
 </head>
@@ -118,6 +138,7 @@
 	<!-- <div id="more_article"></div> -->
 	<center>
 		${paging}<p>
+		<a href="#" onclick="loadNextPage('${pageNum+1}')">Ajax로 다음글 10개 불러오기</a>
 	</center>
 </body>
 </html>

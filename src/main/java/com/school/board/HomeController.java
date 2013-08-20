@@ -138,4 +138,24 @@ public class HomeController {
 		return result;
 	}
 	
+	@RequestMapping(value= "/boardlistAjax")
+	public String boardListAjax(HttpServletRequest request, Model model) {
+		System.out.println("진입테스트"+request.getParameter("pageNum"));
+		String result= "home";
+		
+		try {
+			BoardListAction ba= new BoardListAction(membersDao);
+			
+			if(session!=null && session.getAttribute("uid")!=""){
+				int pageNum= (request.getParameter("pageNum")!=null)?Integer.parseInt(request.getParameter("pageNum")):1;
+				model.addAttribute("pageNum", pageNum);
+				model.addAttribute("blist", ba.getBoardList(pageNum));
+				result= "boardlistAjax";
+			}
+		} catch (Exception e){
+			e.printStackTrace(); 
+		}		
+		return result;
+	}
+
 }

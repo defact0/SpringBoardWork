@@ -10,11 +10,17 @@ Spring 이용한 Model2 MVC패턴 게시판 입니다.
 * SpringBoardWork 의 시작은 / (root page)이다. root가 home.jsp으로 이동하게 설정되어 있다.
    http://localhost:8088/ (오라클 설치할때 포트를 8088으로 설정된 상태입니다.)
 
+
+[08/20]
+	- 제이쿼리 UI를 조금씩 적용 중...
+	- home과 join.jsp에 submit과 button에 스타일 적용
+	- 게시판 Ajax로 다음글 10개 불러오기 만들기 완료
+
+	- 미구현 목록 : 글쓰기, 답글 쓰기 불러오기
+
 [08/19]
 	- Paging.java 게시판 페이지 정리코드 (이해하자)
 	- boardlist.jsp 에서 게시판 출력추가, <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 잊지말자!!
-
-
 
 * import 에러날때 C:\Users\admin\.m2\repository 안에 있는 파일을 삭제합니다.
 Build Path에서 Order and Export 탭에 체크되지 않은 부분을 체크한 다음 ok버튼을 누르면 해결됩니다.
