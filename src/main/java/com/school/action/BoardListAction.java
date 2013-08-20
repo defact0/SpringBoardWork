@@ -3,6 +3,7 @@ package com.school.action;
 import java.util.List;
 
 import com.school.bean.BoardList;
+import com.school.bean.ReplyList;
 import com.school.dao.MembersDAO;
 import com.school.userclass.Paging;
 
@@ -27,5 +28,15 @@ public class BoardListAction {
 		
 		Paging paging=new Paging(maxNum, pageNum, listCount, pageCount, pageName);
 		return paging.makePageGroup();
+	}
+
+	public BoardList getContents(int bNum) {
+		// TODO Auto-generated method stub
+		return dao.getContents(bNum);
+	}
+
+	public List<ReplyList> getReplyList(int bNum) {
+		// TODO Auto-generated method stub
+		return dao.getReply(bNum);
 	}
 }

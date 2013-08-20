@@ -118,7 +118,24 @@ public class HomeController {
 			e.printStackTrace();
 		}
 		return result;
-		
+	}
+
+	//게시글 보기
+	@RequestMapping(value="/contents")
+	public String listContents(HttpServletRequest request, Model model){
+		String result="boardlist";
+		BoardListAction ba=new BoardListAction(membersDao);
+		try{
+			if(session!=null && session.getAttribute("uid")!=""){
+				int bnum= Integer.parseInt(request.getParameter("bnum"));
+				model.addAttribute("blist", ba.getContents(bnum)); //원글 보기
+				model.addAttribute("rlist", ba.getReplyList(bnum)); //댓글 보기
+				result="boardContents";
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
 }
