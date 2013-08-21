@@ -21,8 +21,13 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="com.school.board" />
-	
-	
+	<!-- 
+		<context:component-scan base-package="com.school.board" />
+		com.school. 하면 하위 패키지를 모두 검색함
+	 -->
+	 <context:component-scan base-package="com.school." />
+	 <!--  해당 패키지의 클래스 중 @Component가 적용된 클래스를 bean 등록
+	 <context:component-scan base-package="com.school.userclass"/>
+	  -->
 	
 </beans:beans>

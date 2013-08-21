@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,13 +32,20 @@ public class HomeController {
 	private HttpSession session;
 	
 	// mybatis-context.xml 에서 연결되었다.
-	@Resource(name="membersDao")
+	@Resource(name="membersDao") //@Autowired 도 왼쪽과  같은 자동주입이나 권장하지 않는 방법이다. 가능하면 @Resource를 쓰라
 	private MembersDAO membersDao;
+	
 	@Resource(name="transactionManager")
 	private DataSourceTransactionManager txManager;
 	
-	// 암호화
-	private EncryptionEncoding ee = new EncryptionEncoding();
+	// 암호화, 자동주입 등록(mybatis-context.xml에서)
+	//private EncryptionEncoding ee = new EncryptionEncoding();
+	@Resource(name="EncryptionEncoding")
+	//@Resource(name="EE") //네임으로 설정으로 가능하다.
+	
+	private EncryptionEncoding ee;
+	
+	
 // URL	
 	@RequestMapping(value="/")
 	public String home(){
@@ -74,6 +82,7 @@ public class HomeController {
 	}
 	
 // login에 성공하고 글 목록 출력하기
+	@SuppressWarnings("unused") //자바에서 제공하는 경고끄기
 	@RequestMapping(value="/access")
 	public String mInfo(HttpServletRequest request, Model model){
 		String result="home";
@@ -89,12 +98,16 @@ public class HomeController {
 			MembersAction ma=new MembersAction(membersDao); // 29line과 관련됨 membersDao
 			members=ma.accessMembers(map);
 			
-			members.setMname(ee.TripleDesDecoding(members.getMname())); // mname 디코딩 코드
+			// mname 디코딩 코드
+			// mname 크기를 수정해줘야함 nvarchar2(10)인데 암호화하면 10을 넘어감.
+			// nvarchar2(100)으로 늘렸음
+			members.setMname(ee.TripleDesDecoding(members.getMname())); 
 			
 			
 			if(members!=null){
 				session=request.getSession();
 				session.setAttribute("uid", members.getId());
+				// @SessionAttributes("members") 때문에 아래 코드가 간단해 졌다.
 				model.addAttribute("members",members);
 				result=boardList(request,model);
 			}else{
