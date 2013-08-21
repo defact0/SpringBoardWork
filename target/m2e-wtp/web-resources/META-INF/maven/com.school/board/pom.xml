@@ -135,6 +135,13 @@
 			<version>3.2.2</version>
 		</dependency>
 		
+		<!-- commons.codec Base64 인코딩/디코딩 -->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.6</version>
+        </dependency>
+		
 		<!-- @Inject -->
 		<dependency>
 			<groupId>javax.inject</groupId>

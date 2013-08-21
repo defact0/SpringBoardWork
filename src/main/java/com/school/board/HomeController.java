@@ -19,6 +19,7 @@ import com.school.action.MembersAction;
 import com.school.bean.Members;
 import com.school.bean.ReplyList;
 import com.school.dao.MembersDAO;
+import com.school.userclass.EncryptionEncoding;
 
 /**
  * Handles requests for the application home page.
@@ -35,6 +36,8 @@ public class HomeController {
 	@Resource(name="transactionManager")
 	private DataSourceTransactionManager txManager;
 	
+	// 암호화
+	private EncryptionEncoding ee = new EncryptionEncoding();
 // URL	
 	@RequestMapping(value="/")
 	public String home(){
@@ -44,7 +47,7 @@ public class HomeController {
 	public String join(){
 		return "join";
 	}
-	@RequestMapping(value="/memJoin")
+	@RequestMapping(value="/memJoin") //회원가입
 	public String memJoin(HttpServletRequest request,Model model){
 		String result="join";
 		Members mb=new Members();
@@ -52,8 +55,10 @@ public class HomeController {
 		try{
 			request.setCharacterEncoding("UTF-8");
 			mb.setId(request.getParameter("id"));
-			mb.setPwd(request.getParameter("pwd"));
-			mb.setMname(request.getParameter("name"));
+			mb.setPwd(ee.TripleDesEncoding(request.getParameter("pwd"))); // 패스워드 인코딩
+				//디코딩 테스트
+			//mb.setMname(request.getParameter("name"));
+			mb.setMname(ee.TripleDesEncoding(request.getParameter("name")));
 			mb.setBirth(request.getParameter("birth"));
 			mb.setAddr(request.getParameter("addr"));
 			mb.setPhone(request.getParameter("phone"));
@@ -75,13 +80,17 @@ public class HomeController {
 		
 		Members members=new Members();
 		
-		Map<String,String> map=new HashMap<String, String>();
-		map.put("id", request.getParameter("id"));
-		map.put("pwd", request.getParameter("pwd"));
-		
 		try{
+			Map<String,String> map=new HashMap<String, String>();
+			map.put("id", request.getParameter("id"));
+			// 입력받은 패스워드랑 DB에 암호화된 패스워드를 비교해야함, 단 입력받은 패스워드도 암호화해서 비교해야한다.
+			map.put("pwd", ee.TripleDesEncoding(request.getParameter("pwd"))); //예외처리 필요
+			
 			MembersAction ma=new MembersAction(membersDao); // 29line과 관련됨 membersDao
 			members=ma.accessMembers(map);
+			
+			members.setMname(ee.TripleDesDecoding(members.getMname())); // mname 디코딩 코드
+			
 			
 			if(members!=null){
 				session=request.getSession();
