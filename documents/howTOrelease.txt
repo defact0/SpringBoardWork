@@ -1,0 +1,12 @@
+[ 배포판 만들기! ]
+
+1. 프로젝트 선택하고 난뒤 오른 클릭, Export-WAR File 선택
+
+2. Destination 저장경로 설정
+	Export source files를 체크하면 소스파일까지 추가된다.
+
+3. finish를 누른다.
+
+그러면 Destination 경로에 확장자가 war 파일이 하나 생성되어 있다.
+
+불러오기는 import -WAR File을 누르고 war을 찾아 선택해라
