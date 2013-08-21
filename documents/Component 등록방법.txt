@@ -1,28 +1,28 @@
-[1]  ¾î³ëÅ×ÀÌ¼Ç µî·Ï:¾ÏÈ£È­ ---------------------------------------
+[1]  ì–´ë…¸í…Œì´ì…˜ ë“±ë¡:ì•”í˜¸í™” ---------------------------------------
 [HomeController.java]
 
-¿ø·¡ ÄÚµå
+ì›ë˜ ì½”ë“œ
 private EncryptionEncoding ee = new EncryptionEncoding();
 
-µî·Ï, [HomeController.java]
- 	// ¾ÏÈ£È­, ÀÚµ¿ÁÖÀÔ µî·Ï(mybatis-context.xml¿¡¼­)
+ë“±ë¡, [HomeController.java]
+ 	// ì•”í˜¸í™”, ìë™ì£¼ì… ë“±ë¡(mybatis-context.xmlì—ì„œ)
 	//private EncryptionEncoding ee = new EncryptionEncoding();
 	//@Resource(name="EncryptionEncoding")
-	//@Resource(name="EE") //³×ÀÓÀ¸·Î ¼³Á¤À¸·Î °¡´ÉÇÏ´Ù.
+	//@Resource(name="EE") //ë„¤ì„ìœ¼ë¡œ ì„¤ì •ìœ¼ë¡œ ê°€ëŠ¥í•˜ë‹¤.
 
 @Resource(name="EncryptionEncoding")
 private EncryptionEncoding ee;
 
 
-[  mybatis-context.xml ]¿¡ ´ÙÀ½ ÄÚµå¸¦ ½á ³Ö´Â´Ù.
+[  mybatis-context.xml ]ì— ë‹¤ìŒ ì½”ë“œë¥¼ ì¨ ë„£ëŠ”ë‹¤.
 
-	<!-- ¾ÏÈ£È­ ÆĞÅ°Áö µî·Ï, È®ÀÎÀº HomeController.java
-		nameÀÌ¶õ ¼Ó¼ºµµ ÀÖ´Ù(º°Äª) -->
+	<!-- ì•”í˜¸í™” íŒ¨í‚¤ì§€ ë“±ë¡, í™•ì¸ì€ HomeController.java
+		nameì´ë€ ì†ì„±ë„ ìˆë‹¤(ë³„ì¹­) -->
 	<bean id="EncryptionEncoding" name="EE" class="com.school.userclass.EncryptionEncoding">
 	</bean>
  
 
-[2]  ÄÄÆ÷³ÍÆ® µî·Ï¹ı ---------------------------------------
+[2]  ì»´í¬ë„ŒíŠ¸ ë“±ë¡ë²• ---------------------------------------
 [EncryptionEncoding.java]
 @Component(value="EncryptionEncoding")
 
@@ -31,17 +31,17 @@ private EncryptionEncoding ee;
 	@Resource(name="EncryptionEncoding")
 	private EncryptionEncoding ee;
 
-Àº ±âÁ¸°Å ±×´ë·Î ½á¶ó
+ì€ ê¸°ì¡´ê±° ê·¸ëŒ€ë¡œ ì¨ë¼
 
 [  mybatis-context.xml ]
-//[ servlet-context.xml ] ¿¡¼­µµ °¡´ÉÇÔ
- 	 <!--  ÇØ´ç ÆĞÅ°ÁöÀÇ Å¬·¡½º Áß @Component°¡ Àû¿ëµÈ Å¬·¡½º¸¦ bean µî·Ï -->
+//[ servlet-context.xml ] ì—ì„œë„ ê°€ëŠ¥í•¨
+ 	 <!--  í•´ë‹¹ íŒ¨í‚¤ì§€ì˜ í´ë˜ìŠ¤ ì¤‘ @Componentê°€ ì ìš©ëœ í´ë˜ìŠ¤ë¥¼ bean ë“±ë¡ -->
 	 <context:compoenet-scan base-package="com.school.userclass"/>
 
-* context ºÎºĞ¿¡ ¿À·ù°¡ ³ª¸é, Namespaces¿¡¼­ contextºÎºĞ¿¡ Ã¼Å©¸¦ ÇØ¾ßÇÔ
-	xmlns:context="http://www.springframework.org/schema/context" ÄÚµå°¡ »ı±è
+* context ë¶€ë¶„ì— ì˜¤ë¥˜ê°€ ë‚˜ë©´, Namespacesì—ì„œ contextë¶€ë¶„ì— ì²´í¬ë¥¼ í•´ì•¼í•¨
+	xmlns:context="http://www.springframework.org/schema/context" ì½”ë“œê°€ ìƒê¹€
 
-** ¹¹µçÁö  xmlns="http://www.springframework.org/schema/beans" µÚ¿¡ ÄÚµå°¡ »õ·Î µé¾î°¡¾ß ÇÔ
+** ë­ë“ ì§€  xmlns="http://www.springframework.org/schema/beans" ë’¤ì— ì½”ë“œê°€ ìƒˆë¡œ ë“¤ì–´ê°€ì•¼ í•¨
 
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -50,17 +50,17 @@ private EncryptionEncoding ee;
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 ~~~~
 </beans>
-ÀÌ·±½Ä...
+ì´ëŸ°ì‹...
 
 
-[3] ¸ù¶¥ °Ë»ö com.school.   ---------------------------------------
+[3] ëª½ë•… ê²€ìƒ‰ com.school.   ---------------------------------------
 	<!-- 
 		<context:component-scan base-package="com.school.board" />
-		com.school. ÇÏ¸é ÇÏÀ§ ÆĞÅ°Áö¸¦ ¸ğµÎ °Ë»öÇÔ
+		com.school. í•˜ë©´ í•˜ìœ„ íŒ¨í‚¤ì§€ë¥¼ ëª¨ë‘ ê²€ìƒ‰í•¨
 	 -->
 	
 	 <context:component-scan base-package="com.school." />
 
-	 <!--  ÇØ´ç ÆĞÅ°ÁöÀÇ Å¬·¡½º Áß @Component°¡ Àû¿ëµÈ Å¬·¡½º¸¦ bean µî·Ï
+	 <!--  í•´ë‹¹ íŒ¨í‚¤ì§€ì˜ í´ë˜ìŠ¤ ì¤‘ @Componentê°€ ì ìš©ëœ í´ë˜ìŠ¤ë¥¼ bean ë“±ë¡
 	 <context:component-scan base-package="com.school.userclass"/>	 
 	  -->
